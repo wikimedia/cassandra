@@ -73,8 +73,6 @@ public class RepairRunnable extends WrappedRunnable implements ProgressEventNoti
 
     private final List<ProgressListener> listeners = new ArrayList<>();
 
-    private static final AtomicInteger threadCounter = new AtomicInteger(1);
-
     public RepairRunnable(StorageService storageService, int cmd, RepairOption options, String keyspace)
     {
         this.storageService = storageService;
@@ -378,7 +376,7 @@ public class RepairRunnable extends WrappedRunnable implements ProgressEventNoti
 
     private Thread createQueryThread(final int cmd, final UUID sessionId)
     {
-        return NamedThreadFactory.createThread(new WrappedRunnable()
+        return new Thread(NamedThreadFactory.threadLocalDeallocator(new WrappedRunnable()
         {
             // Query events within a time interval that overlaps the last by one second. Ignore duplicates. Ignore local traces.
             // Wake up upon local trace activity. Query when notified of trace activity with a timeout that doubles every two timeouts.
@@ -445,6 +443,6 @@ public class RepairRunnable extends WrappedRunnable implements ProgressEventNoti
                     seen[si].clear();
                 }
             }
-        }, "Repair-Runnable-" + threadCounter.incrementAndGet());
+        }));
     }
 }

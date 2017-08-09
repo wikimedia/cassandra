@@ -128,7 +128,6 @@ Merged from 2.1:
  * Fix Thread Leak in OutboundTcpConnection (CASSANDRA-13204)
  * Coalescing strategy can enter infinite loop (CASSANDRA-13159)
 
-
 3.10
  * Fix secondary index queries regression (CASSANDRA-13013)
  * Add duration type to the protocol V5 (CASSANDRA-12850)

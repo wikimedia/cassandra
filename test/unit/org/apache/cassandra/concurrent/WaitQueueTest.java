@@ -44,7 +44,7 @@ public class WaitQueueTest
         final AtomicInteger ready = new AtomicInteger();
         Thread[] ts = new Thread[4];
         for (int i = 0 ; i < ts.length ; i++)
-            ts[i] = NamedThreadFactory.createThread(new Runnable()
+            ts[i] = new Thread(new Runnable()
         {
             @Override
             public void run()
@@ -84,7 +84,7 @@ public class WaitQueueTest
         final AtomicBoolean ready = new AtomicBoolean(false);
         final AtomicBoolean condition = new AtomicBoolean(false);
         final AtomicBoolean fail = new AtomicBoolean(false);
-        Thread t = NamedThreadFactory.createThread(new Runnable()
+        Thread t = new Thread(new Runnable()
         {
             @Override
             public void run()

@@ -34,7 +34,6 @@ import org.junit.Test;
 import com.clearspring.analytics.hash.MurmurHash;
 import com.clearspring.analytics.stream.Counter;
 import junit.framework.Assert;
-import org.apache.cassandra.concurrent.NamedThreadFactory;
 import org.apache.cassandra.utils.TopKSampler.SamplerResult;
 
 public class TopKSamplerTest
@@ -83,7 +82,7 @@ public class TopKSamplerTest
         final CountDownLatch latch = new CountDownLatch(1);
         final TopKSampler<String> sampler = new TopKSampler<String>();
 
-        NamedThreadFactory.createThread(new Runnable()
+        new Thread(new Runnable()
         {
             public void run()
             {
@@ -100,7 +99,7 @@ public class TopKSamplerTest
             }
 
         }
-        , "inserter").start();
+        ,"inserter").start();
         try
         {
             // start/stop in fast iterations

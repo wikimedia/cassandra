@@ -553,7 +553,7 @@ public class OutboundTcpConnection extends FastThreadLocalThread
     {
         final AtomicInteger version = new AtomicInteger(NO_VERSION);
         final CountDownLatch versionLatch = new CountDownLatch(1);
-        NamedThreadFactory.createThread(() ->
+        Runnable r = () ->
         {
             try
             {
@@ -573,7 +573,8 @@ public class OutboundTcpConnection extends FastThreadLocalThread
                 //unblock the waiting thread on either success or fail
                 versionLatch.countDown();
             }
-        }, "HANDSHAKE-" + poolReference.endPoint()).start();
+        };
+        new Thread(NamedThreadFactory.threadLocalDeallocator(r), "HANDSHAKE-" + poolReference.endPoint()).start();
 
         try
         {

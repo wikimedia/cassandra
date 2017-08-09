@@ -33,7 +33,6 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.exceptions.NoHostAvailableException;
 import com.datastax.driver.core.exceptions.WriteTimeoutException;
 import org.apache.cassandra.batchlog.BatchlogManager;
-import org.apache.cassandra.concurrent.NamedThreadFactory;
 import org.apache.cassandra.transport.ProtocolVersion;
 import org.apache.cassandra.utils.WrappedRunnable;
 
@@ -91,7 +90,7 @@ public class ViewLongTest extends CQLTester
         for (int i = 0; i < writers; i++)
         {
             final int writer = i;
-            Thread t = NamedThreadFactory.createThread(new WrappedRunnable()
+            Thread t = new Thread(new WrappedRunnable()
             {
                 public void runMayThrow()
                 {

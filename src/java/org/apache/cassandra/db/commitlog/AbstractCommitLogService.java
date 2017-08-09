@@ -150,7 +150,7 @@ public abstract class AbstractCommitLogService
         };
 
         shutdown = false;
-        thread = NamedThreadFactory.createThread(runnable, name);
+        thread = new Thread(NamedThreadFactory.threadLocalDeallocator(runnable), name);
         thread.start();
     }
 

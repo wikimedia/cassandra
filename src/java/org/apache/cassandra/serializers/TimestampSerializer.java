@@ -17,7 +17,6 @@
  */
 package org.apache.cassandra.serializers;
 
-import io.netty.util.concurrent.FastThreadLocal;
 import org.apache.cassandra.utils.ByteBufferUtil;
 
 import java.nio.ByteBuffer;
@@ -91,7 +90,7 @@ public class TimestampSerializer implements TypeSerializer<Date>
     private static final String DEFAULT_FORMAT = dateStringPatterns[6];
     private static final Pattern timestampPattern = Pattern.compile("^-?\\d+$");
 
-    private static final FastThreadLocal<SimpleDateFormat> FORMATTER = new FastThreadLocal<SimpleDateFormat>()
+    private static final ThreadLocal<SimpleDateFormat> FORMATTER = new ThreadLocal<SimpleDateFormat>()
     {
         protected SimpleDateFormat initialValue()
         {
@@ -100,7 +99,7 @@ public class TimestampSerializer implements TypeSerializer<Date>
     };
 
     private static final String UTC_FORMAT = dateStringPatterns[40];
-    private static final FastThreadLocal<SimpleDateFormat> FORMATTER_UTC = new FastThreadLocal<SimpleDateFormat>()
+    private static final ThreadLocal<SimpleDateFormat> FORMATTER_UTC = new ThreadLocal<SimpleDateFormat>()
     {
         protected SimpleDateFormat initialValue()
         {
@@ -111,7 +110,7 @@ public class TimestampSerializer implements TypeSerializer<Date>
     };
 
     private static final String TO_JSON_FORMAT = dateStringPatterns[19];
-    private static final FastThreadLocal<SimpleDateFormat> FORMATTER_TO_JSON = new FastThreadLocal<SimpleDateFormat>()
+    private static final ThreadLocal<SimpleDateFormat> FORMATTER_TO_JSON = new ThreadLocal<SimpleDateFormat>()
     {
         protected SimpleDateFormat initialValue()
         {

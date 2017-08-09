@@ -17,7 +17,6 @@
  */
 package org.apache.cassandra.utils;
 
-import org.apache.cassandra.concurrent.NamedThreadFactory;
 import org.apache.cassandra.config.Config;
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.io.util.FileUtils;
@@ -140,21 +139,25 @@ public class CoalescingStrategies
             this.displayName = displayName;
             if (DEBUG_COALESCING)
             {
-                NamedThreadFactory.createThread(() ->
+                new Thread(displayName + " debug thread")
                 {
-                    while (true)
+                    @Override
+                    public void run()
                     {
-                        try
+                        while (true)
                         {
-                            Thread.sleep(5000);
+                            try
+                            {
+                                Thread.sleep(5000);
+                            }
+                            catch (InterruptedException e)
+                            {
+                                throw new AssertionError();
+                            }
+                            shouldLogAverage = true;
                         }
-                        catch (InterruptedException e)
-                        {
-                            throw new AssertionError();
-                        }
-                        shouldLogAverage = true;
                     }
-                }, displayName + " debug thread").start();
+                }.start();
             }
             RandomAccessFile rasTemp = null;
             ByteBuffer logBufferTemp = null;

@@ -17,7 +17,6 @@
  */
 package org.apache.cassandra.io.compress;
 
-import io.netty.util.concurrent.FastThreadLocal;
 import org.apache.cassandra.schema.CompressionParams;
 
 import java.io.IOException;
@@ -33,7 +32,7 @@ public class DeflateCompressor implements ICompressor
 {
     public static final DeflateCompressor instance = new DeflateCompressor();
 
-    private static final FastThreadLocal<byte[]> threadLocalScratchBuffer = new FastThreadLocal<byte[]>()
+    private static final ThreadLocal<byte[]> threadLocalScratchBuffer = new ThreadLocal<byte[]>()
     {
         @Override
         protected byte[] initialValue()
@@ -47,8 +46,8 @@ public class DeflateCompressor implements ICompressor
         return threadLocalScratchBuffer.get();
     }
 
-    private final FastThreadLocal<Deflater> deflater;
-    private final FastThreadLocal<Inflater> inflater;
+    private final ThreadLocal<Deflater> deflater;
+    private final ThreadLocal<Inflater> inflater;
 
     public static DeflateCompressor create(Map<String, String> compressionOptions)
     {
@@ -58,7 +57,7 @@ public class DeflateCompressor implements ICompressor
 
     private DeflateCompressor()
     {
-        deflater = new FastThreadLocal<Deflater>()
+        deflater = new ThreadLocal<Deflater>()
         {
             @Override
             protected Deflater initialValue()
@@ -66,7 +65,7 @@ public class DeflateCompressor implements ICompressor
                 return new Deflater();
             }
         };
-        inflater = new FastThreadLocal<Inflater>()
+        inflater = new ThreadLocal<Inflater>()
         {
             @Override
             protected Inflater initialValue()

@@ -39,7 +39,6 @@ import com.google.common.cache.RemovalNotification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.netty.util.concurrent.FastThreadLocal;
 import org.apache.cassandra.config.TransparentDataEncryptionOptions;
 
 /**
@@ -55,7 +54,7 @@ public class CipherFactory
      * Bonus points if you can avoid calling (@code Cipher#init); hence, the point of the supporting struct
      * for caching Cipher instances.
      */
-    private static final FastThreadLocal<CachedCipher> cipherThreadLocal = new FastThreadLocal<>();
+    private static final ThreadLocal<CachedCipher> cipherThreadLocal = new ThreadLocal<>();
 
     private final SecureRandom secureRandom;
     private final LoadingCache<String, Key> cache;

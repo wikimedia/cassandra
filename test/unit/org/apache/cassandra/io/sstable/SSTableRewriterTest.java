@@ -33,7 +33,6 @@ import org.junit.Test;
 
 import org.apache.cassandra.Util;
 import org.apache.cassandra.UpdateBuilder;
-import org.apache.cassandra.concurrent.NamedThreadFactory;
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.db.ColumnFamilyStore;
 import org.apache.cassandra.db.DecoratedKey;
@@ -814,7 +813,7 @@ public class SSTableRewriterTest extends SSTableWriterTestBase
                 }
             }
         };
-        Thread t = NamedThreadFactory.createThread(r);
+        Thread t = new Thread(r);
         try
         {
             t.start();
@@ -896,7 +895,7 @@ public class SSTableRewriterTest extends SSTableWriterTestBase
                 }
             }
         };
-        Thread t = NamedThreadFactory.createThread(r);
+        Thread t = new Thread(r);
         try
         {
             t.start();

@@ -32,7 +32,6 @@ import java.util.List;
 
 
 import org.apache.cassandra.SchemaLoader;
-import org.apache.cassandra.concurrent.NamedThreadFactory;
 import org.apache.cassandra.exceptions.ConfigurationException;
 import org.apache.cassandra.utils.Pair;
 
@@ -136,7 +135,7 @@ public class CacheProviderTest
         List<Thread> threads = new ArrayList<>(100);
         for (int i = 0; i < 100; i++)
         {
-            Thread thread = NamedThreadFactory.createThread(runnable);
+            Thread thread = new Thread(runnable);
             threads.add(thread);
             thread.start();
         }

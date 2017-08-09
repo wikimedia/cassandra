@@ -23,7 +23,6 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-import io.netty.util.concurrent.FastThreadLocal;
 import org.apache.cassandra.concurrent.NamedThreadFactory;
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.index.sasi.disk.OnDiskIndexBuilder;
@@ -43,7 +42,7 @@ public class TermIterator extends RangeIterator<Long, Token>
 {
     private static final Logger logger = LoggerFactory.getLogger(TermIterator.class);
 
-    private static final FastThreadLocal<ExecutorService> SEARCH_EXECUTOR = new FastThreadLocal<ExecutorService>()
+    private static final ThreadLocal<ExecutorService> SEARCH_EXECUTOR = new ThreadLocal<ExecutorService>()
     {
         public ExecutorService initialValue()
         {
@@ -60,7 +59,7 @@ public class TermIterator extends RangeIterator<Long, Token>
 
                 public Thread newThread(Runnable task)
                 {
-                    return NamedThreadFactory.createThread(task, currentThread + "-SEARCH-" + count.incrementAndGet(), true);
+                    return new Thread(NamedThreadFactory.threadLocalDeallocator(task), currentThread + "-SEARCH-" + count.incrementAndGet()) {{ setDaemon(true); }};
                 }
             });
         }

@@ -34,7 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.apache.cassandra.Util;
-import org.apache.cassandra.concurrent.NamedThreadFactory;
 import org.apache.cassandra.config.ColumnDefinition;
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.config.ParameterizedClass;
@@ -157,17 +156,20 @@ public class RecoveryManagerTest
             Assert.assertTrue(Util.getAllUnfiltered(Util.cmd(keyspace2.getColumnFamilyStore(CF_STANDARD3), dk).build()).isEmpty());
 
             final AtomicReference<Throwable> err = new AtomicReference<Throwable>();
-            Thread t = NamedThreadFactory.createThread(() ->
-            {
-                try
+            Thread t = new Thread() {
+                @Override
+                public void run()
                 {
-                    CommitLog.instance.resetUnsafe(false); // disassociate segments from live CL
+                    try
+                    {
+                        CommitLog.instance.resetUnsafe(false); // disassociate segments from live CL
+                    }
+                    catch (Throwable t)
+                    {
+                        err.set(t);
+                    }
                 }
-                catch (Throwable x)
-                {
-                    err.set(x);
-                }
-            });
+            };
             t.start();
             Assert.assertTrue(mockInitiator.blocked.tryAcquire(1, 20, TimeUnit.SECONDS));
             Thread.sleep(100);
