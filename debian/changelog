@@ -1,3 +1,17 @@
+cassandra (3.11.0-wmf4) unstable; urgency=medium
+
+  * Reinstate cecbe17, and cherry-pick Robert Stupp's proposed fix (bed7fa5)
+
+ -- Eric Evans <eevans@sym-link.com>  Wed, 13 Sep 2017 13:23:41 -0500
+
+cassandra (3.11.0-wmf3) unstable; urgency=medium
+
+  * Disable Cassandra's in-built heap dump generation; Let the JVM create
+    heap dumps on OutOfMemoryErrors.
+  * Revert cecbe17; FastThreadLocal leaks memory.
+
+ -- Eric Evans <eevans@wikimedia.org>  Thu, 10 Aug 2017 17:47:16 -0400
+
 cassandra (3.11.0) unstable; urgency=medium
 
   * New release
