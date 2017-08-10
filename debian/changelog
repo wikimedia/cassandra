@@ -1,3 +1,11 @@
+cassandra (3.11.0-wmf3) unstable; urgency=medium
+
+  * Disable Cassandra's in-built heap dump generation; Let the JVM create
+    heap dumps on OutOfMemoryErrors.
+  * Revert cecbe17; FastThreadLocal leaks memory.
+
+ -- Eric Evans <eevans@wikimedia.org>  Thu, 10 Aug 2017 17:47:16 -0400
+
 cassandra (3.11.0) unstable; urgency=medium
 
   * New release
