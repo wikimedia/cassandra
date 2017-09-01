@@ -1,3 +1,7 @@
+3.11.1
+ * BTree.Builder memory leak (CASSANDRA-13754)
+
+
 3.11.0
  * Replace string comparison with regex/number checks in MessagingService test (CASSANDRA-13216)
  * Fix formatting of duration columns in CQLSH (CASSANDRA-13549)
