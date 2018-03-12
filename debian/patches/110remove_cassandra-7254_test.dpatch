@@ -1,0 +1,31 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 110remove_cassandra-7254_test.dpatch by Eric Evans <eevans@wikimedia.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: No description.
+
+@DPATCH@
+diff --git a/bin/cassandra b/bin/cassandra
+index c968c35636..f5d87f4f4f 100755
+--- a/bin/cassandra
++++ b/bin/cassandra
+@@ -257,12 +257,13 @@ while true; do
+     esac
+ done
+ 
+-# see CASSANDRA-7254
+-"$JAVA" -cp "$CLASSPATH" $JVM_OPTS 2>&1 | grep -q 'Error: Exception thrown by the agent : java.lang.NullPointerException'
+-if [ $? -ne "1" ]; then 
+-    echo Unable to bind JMX, is Cassandra already running?
+-    exit 1;
+-fi
++# Blocks startup when using the Prometheus exporter agent (see: T186567)
++# # see CASSANDRA-7254
++# "$JAVA" -cp "$CLASSPATH" $JVM_OPTS 2>&1 | grep -q 'Error: Exception thrown by the agent : java.lang.NullPointerException'
++# if [ $? -ne "1" ]; then 
++#     echo Unable to bind JMX, is Cassandra already running?
++#     exit 1;
++# fi
+ 
+ # Start up the service
+ launch_service "$pidfile" "$foreground" "$properties" "$classname"
