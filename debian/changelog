@@ -1,3 +1,9 @@
+cassandra (2.2.6-wmf3) unstable; urgency=medium
+
+  * Comment out JVM test invocation that blocks start up.
+
+ -- Eric Evans <eevans@wikimedia.org>  Mon, 12 Mar 2018 11:06:06 -0500
+
 cassandra (2.2.6-wmf2) unstable; urgency=medium
 
   * Backported https://issues.apache.org/jira/browse/CASSANDRA-11752,
