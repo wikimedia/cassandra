@@ -1,3 +1,17 @@
+cassandra (2.2.6-wmf2) unstable; urgency=medium
+
+  * Backported https://issues.apache.org/jira/browse/CASSANDRA-11752,
+    (histograms/metrics in 2.2 do not appear recency biased).
+
+ -- Eric Evans <eevans@wikimedia.org>  Wed, 24 Aug 2016 10:28:19 -0500
+
+cassandra (2.2.6-wmf1) unstable; urgency=medium
+
+  * Patched to use a Dropwizard ExponentiallyDecayingResevoir for
+    metrics histograms.
+
+ -- Eric Evans <eevans@wikimedia.org>  Fri, 10 Jun 2016 14:34:00 +0200
+
 cassandra (2.2.6) unstable; urgency=medium
 
   * 

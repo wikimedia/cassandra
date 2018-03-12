@@ -1,2 +1,3 @@
 001cassandra_yaml_dirs.dpatch
 002cassandra_logdir_fix.dpatch
+101cassandra-11752_2.2.dpatch
