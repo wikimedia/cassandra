@@ -1,0 +1,29 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 100reinstate_exp_decaying_resv.dpatch by Eric Evans <eevans@wikimedia.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: No description.
+
+@DPATCH@
+diff --git a/src/java/org/apache/cassandra/metrics/CassandraMetricsRegistry.java b/src/java/org/apache/cassandra/metrics/CassandraMetricsRegistry.java
+index 6fdb2ff..308a65b 100644
+--- a/src/java/org/apache/cassandra/metrics/CassandraMetricsRegistry.java
++++ b/src/java/org/apache/cassandra/metrics/CassandraMetricsRegistry.java
+@@ -60,7 +60,7 @@ public class CassandraMetricsRegistry extends MetricRegistry
+ 
+     public Histogram histogram(MetricName name, boolean considerZeroes)
+     {
+-        Histogram histogram = register(name, new ClearableHistogram(new EstimatedHistogramReservoir(considerZeroes)));
++        Histogram histogram = register(name, new Histogram(new ExponentiallyDecayingReservoir()));
+         registerMBean(histogram, name.getMBeanName());
+ 
+         return histogram;
+@@ -68,7 +68,7 @@ public class CassandraMetricsRegistry extends MetricRegistry
+ 
+     public Timer timer(MetricName name)
+     {
+-        Timer timer = register(name, new Timer(new EstimatedHistogramReservoir(false)));
++        Timer timer = register(name, new Timer(new ExponentiallyDecayingReservoir()));
+         registerMBean(timer, name.getMBeanName());
+ 
+         return timer;
