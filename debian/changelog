@@ -1,3 +1,9 @@
+cassandra (2.2.6-wmf4) unstable; urgency=medium
+
+  * Update dependencies for Debian Stretch build.
+
+ -- Eric Evans <eevans@wikimedia.org>  Wed, 30 May 2018 07:24:01 -0500
+
 cassandra (2.2.6-wmf3) unstable; urgency=medium
 
   * Comment out JVM test invocation that blocks start up.
