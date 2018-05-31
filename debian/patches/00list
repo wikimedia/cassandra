@@ -2,3 +2,4 @@
 002cassandra_logdir_fix.dpatch
 101cassandra-11752_2.2.dpatch
 110remove_cassandra-7254_test.dpatch
+120set_cqlsh_no_bundled.dpatch
